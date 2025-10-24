@@ -1,9 +1,8 @@
 package com.amandalyckenius.portfolio_backend;
 
 import com.amandalyckenius.portfolio_backend.dto.ProjectResponseDTO;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -11,49 +10,22 @@ import java.util.List;
 @RequestMapping("api/projects")
 public class ProjectController {
 
-    private final List<ProjectResponseDTO> projects = List.of(
-            new ProjectResponseDTO(
-                    "Vision Capsule",
-                    "Time-capsule web app that schedules messages for future delivery.",
-                    "vision-capsule",
-                    "https://github.com/AmandaLyckenius/vision-capsule",
-                    "https://visioncapsule.app",
-                    List.of("React", "TypeScript", "Spring Boot", "MongoDB")
+    private final ProjectService projectService;
 
-            ),
-            new ProjectResponseDTO(
-                    "Lagom Kul",
-                    "'lagom' fun app with randomised jokes",
-                    "lagom-kul",
-                    "https://github.com/BugBusters-G1/agprojekt",
-                    "https://agprojekt.vercel.app",
-                    List.of("React", "TypeScript", "Spring Boot", "MongoDB")
-            ),
-            new ProjectResponseDTO(
-                    "ToDo app",
-                    "ToDo app that helps you organize your tasks",
-                    "ws-app",
-                    "https://github.com/AmandaLyckenius/ws_app",
-                    "",
-                    List.of("React", "TypeScript", "Spring Boot", "MongoDB")
-
-            ));
+    @Autowired
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
 
     @GetMapping
     public List<ProjectResponseDTO> getAllProjects() {
-        return projects;
+        return projectService.findAll();
     }
 
     @GetMapping("/{slug}")
     public ProjectResponseDTO getProjectBySlug(@PathVariable String slug) {
-        return projects.stream()
-                .filter(p -> p.slug().equals(slug))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Project not found: " + slug
-                ));
+        return projectService.findProjectBySlug(slug);
     }
 
 }
