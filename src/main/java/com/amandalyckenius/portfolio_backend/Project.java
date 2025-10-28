@@ -16,8 +16,7 @@ public class Project {
     private String liveUrl;
     private List<String> tech;
 
-    public Project(String id, String title, String description, String slug, String githubUrl, String liveUrl, List<String> tech) {
-        this.id = id;
+    public Project(String title, String description, String slug, String githubUrl, String liveUrl, List<String> tech) {
         this.title = title;
         this.description = description;
         this.slug = slug;
@@ -25,6 +24,8 @@ public class Project {
         this.liveUrl = liveUrl;
         this.tech = tech;
     }
+
+    public Project () {}
 
     public String getId() {
         return id;
