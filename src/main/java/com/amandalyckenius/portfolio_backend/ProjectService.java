@@ -16,65 +16,39 @@ import java.util.List;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final ProjectMapper projectMapper;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
+        this.projectMapper = projectMapper;
     }
 
     public List<ProjectResponseDTO> findAll() {
         return projectRepository.findAll().stream().map(
-                project -> new ProjectResponseDTO(
-                        project.getTitle(),
-                        project.getDescription(),
-                        project.getSlug(),
-                        project.getGithubUrl(),
-                        project.getLiveUrl(),
-                        project.getTech()
-                )
+                projectMapper::toResponse
         ).toList();
     }
 
     public ProjectResponseDTO findProjectBySlug(String slug) {
-
         Project project = projectRepository.findBySlug(slug)
                 .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found: " + slug));
 
-        return new ProjectResponseDTO(
-                project.getTitle(),
-                project.getDescription(),
-                project.getSlug(),
-                project.getGithubUrl(),
-                project.getLiveUrl(),
-                project.getTech()
-        );
+        return projectMapper.toResponse(project);
     }
 
     public ProjectResponseDTO createProject(ProjectRequestDTO projectRequestDTO){
 
         String slug = generateSlug(projectRequestDTO.title());
 
-        Project project = new Project(
-                projectRequestDTO.title(),
-                projectRequestDTO.description(),
-                slug,
-                projectRequestDTO.githubUrl(),
-                projectRequestDTO.liveUrl(),
-                projectRequestDTO.tech()
-        );
+        if(projectRepository.findBySlug(slug).isPresent()){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Slug already exists" + slug);
+        }
 
+        Project project = projectMapper.toDomain(projectRequestDTO, slug);
         projectRepository.save(project);
 
-        ProjectResponseDTO projectResponseDTO = new ProjectResponseDTO(
-                project.getTitle(),
-                project.getDescription(),
-                project.getSlug(),
-                project.getGithubUrl(),
-                project.getLiveUrl(),
-                project.getTech()
-        );
-
-        return projectResponseDTO;
+        return projectMapper.toResponse(project);
     }
 
     private String generateSlug(String title){
