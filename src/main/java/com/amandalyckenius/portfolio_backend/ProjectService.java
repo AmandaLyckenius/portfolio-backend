@@ -32,7 +32,7 @@ public class ProjectService {
 
     public ProjectResponseDTO findProjectBySlug(String slug) {
         Project project = projectRepository.findBySlug(slug)
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found: " + slug));
+                .orElseThrow( () -> new ProjectNotFoundException("Project not found: " + slug));
 
         return projectMapper.toResponse(project);
     }
