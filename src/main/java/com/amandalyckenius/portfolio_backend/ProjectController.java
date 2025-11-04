@@ -4,6 +4,8 @@ import com.amandalyckenius.portfolio_backend.dto.ProjectRequestDTO;
 import com.amandalyckenius.portfolio_backend.dto.ProjectResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,18 +23,18 @@ public class ProjectController {
 
 
     @GetMapping
-    public List<ProjectResponseDTO> getAllProjects() {
-        return projectService.findAll();
+    public ResponseEntity<List<ProjectResponseDTO>> getAllProjects() {
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.findAll());
     }
 
     @GetMapping("/{slug}")
-    public ProjectResponseDTO getProjectBySlug(@PathVariable String slug) {
-        return projectService.findProjectBySlug(slug);
+    public ResponseEntity<ProjectResponseDTO> getProjectBySlug(@PathVariable String slug) {
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.findProjectBySlug(slug));
     }
 
     @PostMapping("/create")
-    public ProjectResponseDTO createProject(@Valid @RequestBody ProjectRequestDTO projectRequestDTO){
-        return projectService.createProject(projectRequestDTO);
+    public ResponseEntity<ProjectResponseDTO> createProject(@Valid @RequestBody ProjectRequestDTO projectRequestDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.createProject(projectRequestDTO));
     }
 
 }
