@@ -15,14 +15,16 @@ public class Project {
     private String githubUrl;
     private String liveUrl;
     private List<String> tech;
+    private String imageUrl;
 
-    public Project(String title, String description, String slug, String githubUrl, String liveUrl, List<String> tech) {
+    public Project(String title, String description, String slug, String githubUrl, String liveUrl, List<String> tech, String imageUrl) {
         this.title = title;
         this.description = description;
         this.slug = slug;
         this.githubUrl = githubUrl;
         this.liveUrl = liveUrl;
         this.tech = tech;
+        this.imageUrl = imageUrl;
     }
 
     public Project () {}
@@ -81,5 +83,13 @@ public class Project {
 
     public void setTech(List<String> tech) {
         this.tech = tech;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

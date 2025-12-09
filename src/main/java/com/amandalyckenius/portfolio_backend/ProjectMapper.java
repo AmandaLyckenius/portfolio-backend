@@ -16,7 +16,8 @@ public class ProjectMapper {
                 slug,
                 projectRequestDTO.githubUrl(),
                 projectRequestDTO.liveUrl(),
-                projectRequestDTO.tech()
+                projectRequestDTO.tech(),
+                projectRequestDTO.imageUrl()
         );
     }
 
@@ -27,7 +28,8 @@ public class ProjectMapper {
                 project.getSlug(),
                 project.getGithubUrl(),
                 project.getLiveUrl(),
-                project.getTech()
+                project.getTech(),
+                project.getImageUrl()
         );
     }
 
