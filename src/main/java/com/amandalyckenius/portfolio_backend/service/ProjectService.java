@@ -1,13 +1,14 @@
-package com.amandalyckenius.portfolio_backend;
+package com.amandalyckenius.portfolio_backend.service;
 
+import com.amandalyckenius.portfolio_backend.entity.Project;
+import com.amandalyckenius.portfolio_backend.repository.ProjectRepository;
 import com.amandalyckenius.portfolio_backend.dto.ProjectRequestDTO;
 import com.amandalyckenius.portfolio_backend.dto.ProjectResponseDTO;
 import com.amandalyckenius.portfolio_backend.exceptions.ProjectNotFoundException;
 import com.amandalyckenius.portfolio_backend.exceptions.SlugAlreadyExistsException;
+import com.amandalyckenius.portfolio_backend.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 
 import java.text.Normalizer;

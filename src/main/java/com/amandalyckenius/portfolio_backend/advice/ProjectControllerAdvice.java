@@ -1,4 +1,4 @@
-package com.amandalyckenius.portfolio_backend;
+package com.amandalyckenius.portfolio_backend.advice;
 
 import com.amandalyckenius.portfolio_backend.exceptions.ProjectNotFoundException;
 import com.amandalyckenius.portfolio_backend.exceptions.SlugAlreadyExistsException;

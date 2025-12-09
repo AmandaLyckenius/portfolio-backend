@@ -8,6 +8,7 @@ public record ProjectResponseDTO(
         String slug,
         String githubUrl,
         String liveUrl,
-        List<String> tech
+        List<String> tech,
+        String imageUrl
 ) {
 }

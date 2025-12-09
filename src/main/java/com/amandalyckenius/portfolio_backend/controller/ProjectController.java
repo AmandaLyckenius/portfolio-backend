@@ -1,5 +1,6 @@
-package com.amandalyckenius.portfolio_backend;
+package com.amandalyckenius.portfolio_backend.controller;
 
+import com.amandalyckenius.portfolio_backend.service.ProjectService;
 import com.amandalyckenius.portfolio_backend.dto.ProjectRequestDTO;
 import com.amandalyckenius.portfolio_backend.dto.ProjectResponseDTO;
 import jakarta.validation.Valid;

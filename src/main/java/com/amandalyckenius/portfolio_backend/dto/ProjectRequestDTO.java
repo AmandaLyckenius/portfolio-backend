@@ -30,6 +30,10 @@ public record ProjectRequestDTO (
         @NotNull
         @Size(min = 1, max = 30)
         @Pattern(regexp="^[A-Za-z0-9+.#\\-/]+(?: [A-Za-z0-9+.#\\-/]+)*$", message="Invalid tech tag")
-        String>tech
+        String>tech,
+
+        @Size(max = 300)
+        @Pattern(regexp = "^[a-zA-Z0-9/_\\-\\.]+$", message = "Invalid image path")
+        String imageUrl
 ){
 }
