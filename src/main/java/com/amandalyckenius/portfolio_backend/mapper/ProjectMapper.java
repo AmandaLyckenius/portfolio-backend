@@ -1,10 +1,9 @@
-package com.amandalyckenius.portfolio_backend;
+package com.amandalyckenius.portfolio_backend.mapper;
 
+import com.amandalyckenius.portfolio_backend.entity.Project;
 import com.amandalyckenius.portfolio_backend.dto.ProjectRequestDTO;
 import com.amandalyckenius.portfolio_backend.dto.ProjectResponseDTO;
 import org.springframework.stereotype.Component;
-
-import java.text.Normalizer;
 
 @Component
 public class ProjectMapper {

@@ -1,5 +1,6 @@
-package com.amandalyckenius.portfolio_backend;
+package com.amandalyckenius.portfolio_backend.repository;
 
+import com.amandalyckenius.portfolio_backend.entity.Project;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
