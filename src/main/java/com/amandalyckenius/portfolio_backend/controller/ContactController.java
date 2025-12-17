@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/contact")
+@RequestMapping("/api")
 public class ContactController {
 
-    @PostMapping("/message")
+    @PostMapping("/contact")
     public ResponseEntity<Void> sendContactMessage(@Valid @RequestBody ContactRequestDTO contactRequestDTO) {
         String name = contactRequestDTO.name().trim();
         String email = contactRequestDTO.email().trim();
