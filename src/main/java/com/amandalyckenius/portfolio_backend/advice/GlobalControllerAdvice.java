@@ -4,11 +4,14 @@ import com.amandalyckenius.portfolio_backend.exceptions.ProjectNotFoundException
 import com.amandalyckenius.portfolio_backend.exceptions.SlugAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Map;
+
 @RestControllerAdvice
-public class ProjectControllerAdvice {
+public class GlobalControllerAdvice {
 
     @ExceptionHandler(ProjectNotFoundException.class)
     public ResponseEntity<String> projectNotFoundHandler(ProjectNotFoundException exception){
@@ -19,4 +22,13 @@ public class ProjectControllerAdvice {
     public ResponseEntity<String> slugAlreadyExistsHandler(SlugAlreadyExistsException exception){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
+
+    @ExceptionHandler(MailException.class)
+    public ResponseEntity<String> mailExceptionHandler(MailException exception) {
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("Could not send email right now, please try again later");
+
+    }
+
 }
