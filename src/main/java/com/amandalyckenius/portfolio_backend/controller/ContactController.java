@@ -1,6 +1,7 @@
 package com.amandalyckenius.portfolio_backend.controller;
 
 import com.amandalyckenius.portfolio_backend.dto.ContactRequestDTO;
+import com.amandalyckenius.portfolio_backend.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ContactController {
 
+    private final ContactService contactService;
+
+    public ContactController(ContactService contactService) {
+        this.contactService = contactService;
+    }
+
     @PostMapping("/contact")
     public ResponseEntity<Void> sendContactMessage(@Valid @RequestBody ContactRequestDTO contactRequestDTO) {
-        String name = contactRequestDTO.name().trim();
-        String email = contactRequestDTO.email().trim();
-        String message = contactRequestDTO.message().trim();
-
-        System.out.println("Contact message from " + name + " with email: " + email + " and message: " + message);
-
+        contactService.handleContact(contactRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
