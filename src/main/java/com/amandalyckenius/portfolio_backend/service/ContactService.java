@@ -27,15 +27,15 @@ public class ContactService {
         String email = dto.email().trim();
         String messageBody = dto.message().trim();
 
+        String maskedEmail = maskEmail(email);
+
+        log.info("Received contact request from {} <{}>", name, maskedEmail);
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toAddress);
         message.setFrom(fromAddress);
         message.setReplyTo(email);
         message.setSubject("New portfolio contact from " + name);
-
-        String maskedEmail = maskEmail(email);
-
-        log.info("Received contact request from {} <{}>", name, maskedEmail);
 
         message.setText("""
             Name: %s
