@@ -7,6 +7,8 @@ import com.amandalyckenius.portfolio_backend.dto.ProjectResponseDTO;
 import com.amandalyckenius.portfolio_backend.exceptions.ProjectNotFoundException;
 import com.amandalyckenius.portfolio_backend.exceptions.SlugAlreadyExistsException;
 import com.amandalyckenius.portfolio_backend.mapper.ProjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
+    private static final Logger log = LoggerFactory.getLogger(ProjectService.class);
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
@@ -37,6 +40,7 @@ public class ProjectService {
         Project project = projectRepository.findBySlug(slug)
                 .orElseThrow( () -> new ProjectNotFoundException("Project not found: " + slug));
 
+
         return projectMapper.toResponse(project);
     }
 
@@ -51,6 +55,7 @@ public class ProjectService {
         Project project = projectMapper.toDomain(projectRequestDTO, slug);
         projectRepository.save(project);
 
+        log.info("Successfully created new project with slug {}", slug);
         return projectMapper.toResponse(project);
     }
 
