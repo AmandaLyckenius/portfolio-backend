@@ -170,6 +170,7 @@ MAIL_USERNAME=<Gmail address used for sending contact form emails>
 MAIL_PASSWORD=<Gmail app password (not your real password!)>
 CONTACT_TO_EMAIL=<Where incoming contact messages should be sent>
 CONTACT_FROM_EMAIL=<The “from” address used in sent emails>
+MAIL_PORT=587
 ```
 
 ---
