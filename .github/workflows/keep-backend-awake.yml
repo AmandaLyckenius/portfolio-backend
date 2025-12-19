@@ -1,0 +1,17 @@
+name: Keep Backend Awake
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: 
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Render backend (never fail)
+        run: |
+          echo "Pinging backend at ${{ secrets.RENDER_BACKEND_URL }}"
+          curl -L --silent --show-error ${{ secrets.RENDER_BACKEND_URL }} || echo "Ping failed but ignored"
+          echo "Ping completed."
