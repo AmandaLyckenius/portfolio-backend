@@ -130,6 +130,50 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 
 ---
 
+## Docker Support
+
+The project is fully containerized using Docker.
+
+### Build the Docker Image
+
+```bash 
+docker build -t portfolio-backend .
+```
+
+### Run the Container Locally
+
+You can run the backend with:
+```bash
+docker run -p 8080:8080 \
+  -e MONGODB_URI="<your-mongodb-uri>" \
+  -e MAIL_USERNAME="<your-email>" \
+  -e MAIL_PASSWORD="<your-google-app-password>" \
+  -e CONTACT_TO_EMAIL="<recipient-email>" \
+  -e CONTACT_FROM_EMAIL="<sender-email>" \
+  -e MAIL_PORT="587" \
+  portfolio-backend
+```
+
+### This exposes the API at:
+
+```bash
+http://localhost:8080/api
+```
+
+### Environment Variables Required
+
+Inside Docker (and production), you must provide these:
+
+```properties
+MONGODB_URI=<Connection string for MongoDB>
+MAIL_USERNAME=<Gmail address used for sending contact form emails>
+MAIL_PASSWORD=<Gmail app password (not your real password!)>
+CONTACT_TO_EMAIL=<Where incoming contact messages should be sent>
+CONTACT_FROM_EMAIL=<The “from” address used in sent emails>
+```
+
+---
+
 ## Related Repositories
 
 Frontend (React + Vite):
