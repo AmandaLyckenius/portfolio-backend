@@ -23,6 +23,6 @@ public class ContactController {
     @PostMapping("/contact")
     public ResponseEntity<Void> sendContactMessage(@Valid @RequestBody ContactRequestDTO contactRequestDTO) {
         contactService.handleContact(contactRequestDTO);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }
