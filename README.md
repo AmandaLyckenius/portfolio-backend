@@ -13,9 +13,11 @@ The API is built with Spring Boot 3, runs on Java 21, and uses MongoDB as the da
 
 ## Tech Stack
 - Java 21
-- Spring Boot 3 (Web, Validation, Mail)
+- Spring Boot 3 (Web, Validation)
 - MongoDB
 - Gradle
+- Resend (Email API)
+- Docker
 - Deployed on Render
 
 ---
@@ -67,7 +69,7 @@ Example:
 
 ### POST `/api/contact`
 Sends a message from the frontend contact form to my inbox.
-Uses Spring Boot Mail with a secured app password.
+Uses Resend for reliable email delivery in production.
 
 Example:
 ```json
@@ -85,7 +87,7 @@ Example:
 The backend uses a GlobalControllerAdvice to centralize error handling:
 - ProjectNotFoundException → 404
 - SlugAlreadyExistsException → 409
-- MailException → 503
+- ContactMailException → 503
 - all errors logged with appropriate levels (INFO/WARN/ERROR)
 
 Success events (e.g., new project, mail sent) are logged at the service layer.
@@ -107,15 +109,10 @@ spring.data.mongodb.uri=<your mongo uri>
 
 # Contact email settings
 portfolio.contact.to=<recipient email>
-portfolio.contact.from=<sender email>
+portfolio.contact.from=Portfolio <onboarding@resend.dev>
 
-# Gmail SMTP
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=<your gmail address>
-spring.mail.password=<your Google app password>
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
+# Resend API Key
+resend.api.key=<Your resend api key>
 ```
 
 3. Run the application
@@ -146,11 +143,9 @@ You can run the backend with:
 ```bash
 docker run -p 8080:8080 \
   -e MONGODB_URI="<your-mongodb-uri>" \
-  -e MAIL_USERNAME="<your-email>" \
-  -e MAIL_PASSWORD="<your-google-app-password>" \
+  -e RESEND_API_KEY="<your-resend-api-key>" \
   -e CONTACT_TO_EMAIL="<recipient-email>" \
-  -e CONTACT_FROM_EMAIL="<sender-email>" \
-  -e MAIL_PORT="587" \
+  -e CONTACT_FROM_EMAIL="Portfolio <onboarding@resend.dev>" \
   portfolio-backend
 ```
 
@@ -166,12 +161,16 @@ Inside Docker (and production), you must provide these:
 
 ```properties
 MONGODB_URI=<Connection string for MongoDB>
-MAIL_USERNAME=<Gmail address used for sending contact form emails>
-MAIL_PASSWORD=<Gmail app password (not your real password!)>
+RESEND_API_KEY="<your-resend-api-key>"
 CONTACT_TO_EMAIL=<Where incoming contact messages should be sent>
-CONTACT_FROM_EMAIL=<The “from” address used in sent emails>
-MAIL_PORT=587
+CONTACT_FROM_EMAIL=Portfolio <onboarding@resend.dev>
 ```
+---
+
+## Notes about email handling
+
+Email handling is implemented using **Resend** instead of SMTP-based solutions.  
+This approach avoids timeout issues in hosted environments and provides faster, more reliable email delivery in production.
 
 ---
 
